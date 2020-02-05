@@ -1,4 +1,4 @@
-# macOS 上一键将网址打包为 app (基于Chrome)
+# macOS 上快速将网站打包为桌面app (基于Chrome, 不含图标app大小<1KB)
 
 
 ## 为什么不使用 Nativefier ？
