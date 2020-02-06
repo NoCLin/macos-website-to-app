@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # coding: utf-8
+import os
 import re
 import shutil
 import string
@@ -60,20 +61,20 @@ def make(url, title=None, args="", icon=None, ):
         else:
             title = url_parsed.netloc
     print("title", title)
-    dest = Path("apps") / (title + ".app")
+    dest_app = Path("apps") / (title + ".app")
     base_app = Path("resources") / "base.app"
 
     args = '--app=%s %s' % (url, args)
 
-    if Path(dest).is_dir():
-        shutil.rmtree(dest)
+    if Path(dest_app).is_dir():
+        shutil.rmtree(dest_app)
 
-    shutil.copytree(str(base_app), dest)
+    shutil.copytree(str(base_app), dest_app)
 
     plist_src = base_app / "Contents" / "Info.plist"
-    plist = dest / "Contents" / "Info.plist"
-    runner = dest / "Contents" / "MacOS" / "runner"
-    icon_dest = dest / "Contents" / "Resources" / "icon.icns"
+    plist = dest_app / "Contents" / "Info.plist"
+    runner = dest_app / "Contents" / "MacOS" / "runner"
+    icon_dest = dest_app / "Contents" / "Resources" / "icon.icns"
 
     with open(str(plist_src), "rt", encoding="utf-8") as f:
         content = f.read()
@@ -102,9 +103,11 @@ open --wait-apps --new -b com.google.Chrome --args {args}
         icon = "resources/default.icns"
         shutil.copy(icon, str(icon_dest))
     runner_content = runner_content.format(args=args)
-    print(runner_content)
+    # print(runner_content)
     with open(str(runner), "wt", encoding="utf-8") as f:
         f.write(runner_content)
+    print(str(dest_app.absolute()))
+    os.system('open --reveal "%s"' % str(dest_app))
 
 
 if __name__ == '__main__':
