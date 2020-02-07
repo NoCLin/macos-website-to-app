@@ -1,0 +1,1 @@
+pyinstaller maker.py --onefile --name WebappMaker -y

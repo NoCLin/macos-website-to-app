@@ -1,3 +1,4 @@
 fire
 requests
 pillow
+pyinstaller
